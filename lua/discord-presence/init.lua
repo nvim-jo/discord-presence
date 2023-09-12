@@ -63,10 +63,10 @@ Presence.workspaces = {}
 local log = require("lib.log")
 local msgpack = require("deps.msgpack")
 local serpent = require("deps.serpent")
-local file_explorers = require("discordpresence.file_explorers")
-local default_file_assets = require("discordpresence.file_assets")
-local plugin_managers = require("discordpresence.plugin_managers")
-local Discord = require("discordpresence.discord")
+local file_explorers = require("discord-presence.file_explorers")
+local default_file_assets = require("discord-presence.file_assets")
+local plugin_managers = require("discord-presence.plugin_managers")
+local Discord = require("discord-presence.discord")
 
 function Presence:setup(...)
     -- Support setup invocation via both dot and colon syntax.
@@ -163,15 +163,15 @@ function Presence:setup(...)
     self.log:debug(string.format("Using id %s", self.id))
 
     -- Ensure auto-update config is reflected in its global var setting
-    vim.api.nvim_set_var("discordpresence_auto_update", options.auto_update)
+    vim.api.nvim_set_var("discord-presence_auto_update", options.auto_update)
 
     -- Set autocommands
-    vim.fn["discordpresence#SetAutoCmds"]()
+    vim.fn["discord-presence#SetAutoCmds"]()
 
     self.log:info("Completed plugin setup")
 
     -- Set global variable to indicate plugin has been set up
-    vim.api.nvim_set_var("discordpresence_has_setup", 1)
+    vim.api.nvim_set_var("discord-presence_has_setup", 1)
 
     -- Register self to any remote Neovim instances
     self:register_self()
@@ -206,7 +206,7 @@ function Presence:set_option(option, default, validate)
     default = self.coalesce_option(default)
     validate = validate == nil and true or validate
 
-    local g_variable = string.format("discordpresence_%s", option)
+    local g_variable = string.format("discord-presence_%s", option)
 
     self.options[option] = self.coalesce_option(self.options[option])
 
@@ -222,7 +222,7 @@ end
 
 -- Check and warn for duplicate user-defined options
 function Presence:check_dup_options(option)
-    local g_variable = string.format("discordpresence_%s", option)
+    local g_variable = string.format("discord-presence_%s", option)
 
     if self.options[option] ~= nil and vim.g[g_variable] ~= nil then
         local warning_fmt = "Duplicate options: `g:%s` and setup option `%s`"
@@ -289,7 +289,7 @@ end
 
 -- Call a Presence method on a remote instance with a given list of arguments
 function Presence:call_remote_method(socket, name, args)
-    local command_fmt = "lua package.loaded.discordpresence:%s(%s)"
+    local command_fmt = "lua package.loaded.discord-presence:%s(%s)"
 
     -- Stringify the list of args
     for i = 1, #args do

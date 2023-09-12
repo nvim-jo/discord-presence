@@ -1,7 +1,7 @@
 " Fallback to setting up the plugin automatically
-if !exists("g:discordpresence_has_setup")
+if !exists("g:discord-presence_has_setup")
 lua << EOF
-    local Presence = require("discordpresence"):setup()
+    local Presence = require("discord-presence"):setup()
     Presence.log:debug("Custom setup not detected, using defaults")
 EOF
 endif
