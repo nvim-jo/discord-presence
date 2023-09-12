@@ -63,10 +63,10 @@ Presence.workspaces = {}
 local log = require("lib.log")
 local msgpack = require("deps.msgpack")
 local serpent = require("deps.serpent")
-local file_explorers = require("presence.file_explorers")
-local default_file_assets = require("presence.file_assets")
-local plugin_managers = require("presence.plugin_managers")
-local Discord = require("presence.discord")
+local file_explorers = require("discord-presence.file_explorers")
+local default_file_assets = require("discord-presence.file_assets")
+local plugin_managers = require("discord-presence.plugin_managers")
+local Discord = require("discord-presence.discord")
 
 function Presence:setup(...)
     -- Support setup invocation via both dot and colon syntax.
@@ -289,7 +289,7 @@ end
 
 -- Call a Presence method on a remote instance with a given list of arguments
 function Presence:call_remote_method(socket, name, args)
-    local command_fmt = "lua package.loaded.presence:%s(%s)"
+    local command_fmt = "lua package.loaded.discord-presence:%s(%s)"
 
     -- Stringify the list of args
     for i = 1, #args do
